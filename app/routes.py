@@ -209,6 +209,17 @@ def editar_usuario(id):
     return render_template('editar_usuario.html', usuario_edit=usuario)
 
 # ------------------------------------
+# RUTA: Formulario de venta (página dedicada)
+# ------------------------------------
+@main.route('/vender/form/<int:id>')
+@login_required
+def vender_form(id):
+    producto = Producto.query.get_or_404(id)
+    return render_template('vender.html', producto=producto)
+
+
+
+# ------------------------------------
 # RUTA: Registrar venta
 # ------------------------------------
 @main.route('/vender/<int:id>', methods=['POST'])

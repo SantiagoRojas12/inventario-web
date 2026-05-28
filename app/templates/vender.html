@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Vender - {{ producto.nombre }}{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h5 class="mb-1">💰 Vender Producto</h5>
+                    <h6 class="text-muted mb-4">{{ producto.nombre }}</h6>
+
+                    <!-- Info del producto -->
+                    <div class="alert alert-info py-2">
+                        <div class="d-flex justify-content-between">
+                            <span>📦 Stock disponible:</span>
+                            <strong>{{ producto.cantidad }} unidades</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mt-1">
+                            <span>💵 Precio unitario:</span>
+                            <strong>S/ {{ "%.2f"|format(producto.precio) }}</strong>
+                        </div>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('main.vender', id=producto.id) }}">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Cantidad vendida</label>
+                            <input type="number" name="cantidad"
+                                   class="form-control form-control-lg text-center"
+                                   min="1" max="{{ producto.cantidad }}"
+                                   placeholder="0" required autofocus>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success w-100 btn-lg">
+                                ✅ Confirmar Venta
+                            </button>
+                            <a href="{{ url_for('main.dashboard') }}"
+                               class="btn btn-secondary w-100 btn-lg">
+                                Cancelar
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -78,13 +78,10 @@
                                 </td>
                                 <td>S/ {{ "%.2f"|format(p.precio) }}</td>
                                 <td>
-                                    <!-- Botón vender para todos -->
-                                    <button class="btn btn-success btn-sm"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalVender{{ p.id }}">
+                                    <a href="{{ url_for('main.vender_form', id=p.id) }}"
+                                       class="btn btn-success btn-sm">
                                         💰 Vender
-                                    </button>
-
+                                    </a>
                                     {% if current_user.es_jefe() %}
                                         <a href="{{ url_for('main.editar', id=p.id) }}"
                                            class="btn btn-warning btn-sm">✏️</a>
@@ -94,41 +91,6 @@
                                     {% endif %}
                                 </td>
                             </tr>
-
-                            <!-- Modal Vender -->
-                            <div class="modal fade" id="modalVender{{ p.id }}" tabindex="-1">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h6 class="modal-title">💰 Vender — {{ p.nombre }}</h6>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <form method="POST" action="{{ url_for('main.vender', id=p.id) }}">
-                                            <div class="modal-body">
-                                                <p class="text-muted small">
-                                                    Stock disponible: 
-                                                    <strong>{{ p.cantidad }}</strong> unidades
-                                                </p>
-                                                <p class="text-muted small">
-                                                    Precio: <strong>S/ {{ "%.2f"|format(p.precio) }}</strong>
-                                                </p>
-                                                <label class="form-label">Cantidad vendida</label>
-                                                <input type="number" name="cantidad"
-                                                       class="form-control" min="1"
-                                                       max="{{ p.cantidad }}" required>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary btn-sm"
-                                                        data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="submit" class="btn btn-success btn-sm">
-                                                    Confirmar
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
                             {% endfor %}
                         {% else %}
                             <tr>
