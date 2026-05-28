@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import db
-from app.models import Producto, Usuario
+from app.models import Producto, Usuario, Venta
 
 main = Blueprint('main', __name__)
 
@@ -207,3 +207,57 @@ def editar_usuario(id):
         return redirect(url_for('main.usuarios'))
 
     return render_template('editar_usuario.html', usuario_edit=usuario)
+
+# ------------------------------------
+# RUTA: Registrar venta
+# ------------------------------------
+@main.route('/vender/<int:id>', methods=['POST'])
+@login_required
+def vender(id):
+    producto = Producto.query.get_or_404(id)
+    cantidad = int(request.form.get('cantidad'))
+
+    if cantidad <= 0:
+        flash('La cantidad debe ser mayor a 0', 'danger')
+        return redirect(url_for('main.dashboard'))
+
+    if cantidad > producto.cantidad:
+        flash(f'Stock insuficiente. Solo hay {producto.cantidad} unidades', 'danger')
+        return redirect(url_for('main.dashboard'))
+
+    # Descuenta del stock
+    producto.cantidad -= cantidad
+
+    # Registra la venta
+    venta = Venta(
+        cantidad    = cantidad,
+        monto_total = cantidad * producto.precio,
+        producto_id = producto.id,
+        usuario_id  = current_user.id
+    )
+    db.session.add(venta)
+    db.session.commit()
+
+    flash(f'✅ Venta registrada: {cantidad} x {producto.nombre}', 'success')
+    return redirect(url_for('main.dashboard'))
+
+
+# ------------------------------------
+# RUTA: Historial de ventas (solo jefe)
+# ------------------------------------
+@main.route('/ventas')
+@login_required
+def ventas():
+    if not current_user.es_jefe():
+        flash('No tienes permisos para esta acción', 'danger')
+        return redirect(url_for('main.dashboard'))
+
+    ventas = Venta.query.order_by(Venta.fecha.desc()).all()
+    total_vendido = db.session.query(
+        db.func.sum(Venta.monto_total)
+    ).scalar() or 0
+
+    return render_template('ventas.html',
+        ventas        = ventas,
+        total_vendido = total_vendido
+    )

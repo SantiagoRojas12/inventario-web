@@ -56,3 +56,26 @@ class Producto(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
+
+# ------------------------------------
+# MODELO: Venta
+# ------------------------------------
+from datetime import datetime
+
+class Venta(db.Model):
+    __tablename__ = 'ventas'
+
+    id           = db.Column(db.Integer, primary_key=True)
+    cantidad     = db.Column(db.Integer, nullable=False)
+    monto_total  = db.Column(db.Float, nullable=False)
+    fecha        = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relación con producto y usuario
+    producto_id  = db.Column(db.Integer, db.ForeignKey('productos.id'), nullable=False)
+    usuario_id   = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+
+    producto     = db.relationship('Producto', backref='ventas')
+    usuario      = db.relationship('Usuario', backref='ventas')
+
+    def __repr__(self):
+        return f'<Venta {self.producto_id} - {self.cantidad}>'
