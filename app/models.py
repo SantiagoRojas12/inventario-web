@@ -31,23 +31,36 @@ class Usuario(UserMixin, db.Model):
     def __repr__(self):
         return f'<Usuario {self.nombre} - {self.rol}>'
 
-
 # ------------------------------------
 # MODELO: Producto
 # ------------------------------------
 class Producto(db.Model):
     __tablename__ = 'productos'
-    
-    id          = db.Column(db.Integer, primary_key=True)
-    nombre      = db.Column(db.String(100), nullable=False)
-    descripcion = db.Column(db.String(255))
-    cantidad    = db.Column(db.Integer, nullable=False, default=0)
-    precio      = db.Column(db.Float, nullable=False, default=0.0)
-    categoria   = db.Column(db.String(50))
-    
-    def __repr__(self):
-        return f'<Producto {self.nombre} - Stock: {self.cantidad}>'
 
+    id            = db.Column(db.Integer, primary_key=True)
+    nombre        = db.Column(db.String(100), nullable=False)
+    descripcion   = db.Column(db.String(255))
+    cantidad      = db.Column(db.Integer, nullable=False, default=0)
+    precio        = db.Column(db.Float, nullable=False, default=0.0)
+    categoria     = db.Column(db.String(50))
+
+    # Especificaciones del celular
+    marca         = db.Column(db.String(50))
+    almacenamiento= db.Column(db.String(50))
+    color         = db.Column(db.String(50))
+    camara_trasera= db.Column(db.String(100))
+    camara_frontal= db.Column(db.String(100))
+    bateria       = db.Column(db.String(50))
+    cargador_watts= db.Column(db.String(50))
+    conectividad  = db.Column(db.String(50))
+    imei1         = db.Column(db.String(20))
+    imei2         = db.Column(db.String(20))
+
+    # Tienda
+    tienda        = db.Column(db.String(50), default='Shiloh Store')
+
+    def __repr__(self):
+        return f'<Producto {self.nombre}>'
 
 # ------------------------------------
 # Requerido por Flask-Login

@@ -22,7 +22,6 @@ def dashboard():
     else:
         productos = Producto.query.all()
 
-    # Estadísticas
     total_productos  = Producto.query.count()
     stock_bajo       = Producto.query.filter(Producto.cantidad < 5).count()
     valor_total      = db.session.query(db.func.sum(Producto.precio * Producto.cantidad)).scalar() or 0
@@ -47,18 +46,23 @@ def agregar():
         return redirect(url_for('main.dashboard'))
 
     if request.method == 'POST':
-        nombre      = request.form.get('nombre')
-        descripcion = request.form.get('descripcion')
-        cantidad    = request.form.get('cantidad')
-        precio      = request.form.get('precio')
-        categoria   = request.form.get('categoria')
-
         producto = Producto(
-            nombre=nombre,
-            descripcion=descripcion,
-            cantidad=int(cantidad),
-            precio=float(precio),
-            categoria=categoria
+            nombre         = request.form.get('nombre'),
+            descripcion    = request.form.get('descripcion'),
+            cantidad       = int(request.form.get('cantidad')),
+            precio         = float(request.form.get('precio')),
+            categoria      = request.form.get('categoria'),
+            marca          = request.form.get('marca'),
+            almacenamiento = request.form.get('almacenamiento'),
+            color          = request.form.get('color'),
+            camara_trasera = request.form.get('camara_trasera'),
+            camara_frontal = request.form.get('camara_frontal'),
+            bateria        = request.form.get('bateria'),
+            cargador_watts = request.form.get('cargador_watts'),
+            conectividad   = request.form.get('conectividad'),
+            imei1          = request.form.get('imei1'),
+            imei2          = request.form.get('imei2'),
+            tienda         = request.form.get('tienda')
         )
         db.session.add(producto)
         db.session.commit()
@@ -66,6 +70,15 @@ def agregar():
         return redirect(url_for('main.dashboard'))
 
     return render_template('agregar.html', usuario=current_user)
+
+# ------------------------------------
+# RUTA: Ver detalle producto
+# ------------------------------------
+@main.route('/producto/<int:id>')
+@login_required
+def detalle_producto(id):
+    producto = Producto.query.get_or_404(id)
+    return render_template('detalle_producto.html', producto=producto)
 
 # ------------------------------------
 # RUTA: Editar producto
@@ -80,11 +93,22 @@ def editar(id):
     producto = Producto.query.get_or_404(id)
 
     if request.method == 'POST':
-        producto.nombre      = request.form.get('nombre')
-        producto.descripcion = request.form.get('descripcion')
-        producto.cantidad    = int(request.form.get('cantidad'))
-        producto.precio      = float(request.form.get('precio'))
-        producto.categoria   = request.form.get('categoria')
+        producto.nombre         = request.form.get('nombre')
+        producto.descripcion    = request.form.get('descripcion')
+        producto.cantidad       = int(request.form.get('cantidad'))
+        producto.precio         = float(request.form.get('precio'))
+        producto.categoria      = request.form.get('categoria')
+        producto.marca          = request.form.get('marca')
+        producto.almacenamiento = request.form.get('almacenamiento')
+        producto.color          = request.form.get('color')
+        producto.camara_trasera = request.form.get('camara_trasera')
+        producto.camara_frontal = request.form.get('camara_frontal')
+        producto.bateria        = request.form.get('bateria')
+        producto.cargador_watts = request.form.get('cargador_watts')
+        producto.conectividad   = request.form.get('conectividad')
+        producto.imei1          = request.form.get('imei1')
+        producto.imei2          = request.form.get('imei2')
+        producto.tienda         = request.form.get('tienda')
 
         db.session.commit()
         flash('Producto actualizado correctamente', 'success')
@@ -151,6 +175,42 @@ def crear_usuario():
     return render_template('crear_usuario.html', usuario=current_user)
 
 # ------------------------------------
+# RUTA: Editar usuario
+# ------------------------------------
+@main.route('/usuarios/editar/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_usuario(id):
+    if not current_user.es_jefe():
+        flash('No tienes permisos para esta acción', 'danger')
+        return redirect(url_for('main.dashboard'))
+
+    usuario = Usuario.query.get_or_404(id)
+
+    if request.method == 'POST':
+        nombre   = request.form.get('nombre')
+        email    = request.form.get('email')
+        rol      = request.form.get('rol')
+        password = request.form.get('password')
+
+        existe = Usuario.query.filter_by(email=email).first()
+        if existe and existe.id != id:
+            flash('Ese email ya está en uso', 'danger')
+            return redirect(url_for('main.editar_usuario', id=id))
+
+        usuario.nombre = nombre
+        usuario.email  = email
+        usuario.rol    = rol
+
+        if password:
+            usuario.set_password(password)
+
+        db.session.commit()
+        flash('Usuario actualizado correctamente', 'success')
+        return redirect(url_for('main.usuarios'))
+
+    return render_template('editar_usuario.html', usuario_edit=usuario)
+
+# ------------------------------------
 # RUTA: Eliminar usuario
 # ------------------------------------
 @main.route('/usuarios/eliminar/<int:id>')
@@ -171,53 +231,13 @@ def eliminar_usuario(id):
     return redirect(url_for('main.usuarios'))
 
 # ------------------------------------
-# RUTA: Editar usuario
-# ------------------------------------
-@main.route('/usuarios/editar/<int:id>', methods=['GET', 'POST'])
-@login_required
-def editar_usuario(id):
-    if not current_user.es_jefe():
-        flash('No tienes permisos para esta acción', 'danger')
-        return redirect(url_for('main.dashboard'))
-
-    usuario = Usuario.query.get_or_404(id)
-
-    if request.method == 'POST':
-        nombre   = request.form.get('nombre')
-        email    = request.form.get('email')
-        rol      = request.form.get('rol')
-        password = request.form.get('password')
-
-        # Verifica que el email no lo use otro usuario
-        existe = Usuario.query.filter_by(email=email).first()
-        if existe and existe.id != id:
-            flash('Ese email ya está en uso', 'danger')
-            return redirect(url_for('main.editar_usuario', id=id))
-
-        usuario.nombre = nombre
-        usuario.email  = email
-        usuario.rol    = rol
-
-        # Solo cambia la contraseña si escribió una nueva
-        if password:
-            usuario.set_password(password)
-
-        db.session.commit()
-        flash('Usuario actualizado correctamente', 'success')
-        return redirect(url_for('main.usuarios'))
-
-    return render_template('editar_usuario.html', usuario_edit=usuario)
-
-# ------------------------------------
-# RUTA: Formulario de venta (página dedicada)
+# RUTA: Formulario de venta
 # ------------------------------------
 @main.route('/vender/form/<int:id>')
 @login_required
 def vender_form(id):
     producto = Producto.query.get_or_404(id)
     return render_template('vender.html', producto=producto)
-
-
 
 # ------------------------------------
 # RUTA: Registrar venta
@@ -236,10 +256,8 @@ def vender(id):
         flash(f'Stock insuficiente. Solo hay {producto.cantidad} unidades', 'danger')
         return redirect(url_for('main.dashboard'))
 
-    # Descuenta del stock
     producto.cantidad -= cantidad
 
-    # Registra la venta
     venta = Venta(
         cantidad    = cantidad,
         monto_total = cantidad * producto.precio,
@@ -252,9 +270,8 @@ def vender(id):
     flash(f'✅ Venta registrada: {cantidad} x {producto.nombre}', 'success')
     return redirect(url_for('main.dashboard'))
 
-
 # ------------------------------------
-# RUTA: Historial de ventas (solo jefe)
+# RUTA: Historial de ventas
 # ------------------------------------
 @main.route('/ventas')
 @login_required

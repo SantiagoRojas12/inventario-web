@@ -146,9 +146,12 @@
 
     <!-- Navbar -->
     <nav class="navbar navbar-light px-3 mb-3">
+
         <a class="navbar-brand" href="{{ url_for('main.dashboard') }}">
-            🏪 Shiloh Store
+            <img src="{{ url_for('static', filename='img/logo.png') }}"
+                height="35" alt="Shiloh Store">
         </a>
+
         <div class="d-flex align-items-center gap-2">
             {% if current_user.is_authenticated %}
                 {% if current_user.es_jefe() %}
