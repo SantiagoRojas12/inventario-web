@@ -1,12 +1,14 @@
 import os
 
 class Config:
-    # Clave secreta para las sesiones (cámbiala en producción)
-    SECRET_KEY = 'mi_clave_secreta_123'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'mi_clave_secreta_123'
     
-    # Ruta de la base de datos SQLite
-    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'inventario.db')
+    # Usa PostgreSQL en Render o SQLite local
+    DATABASE_URL = os.environ.get('DATABASE_URL') or 'sqlite:///inventario.db'
     
-    # Evita warnings innecesarios
+    # Render usa 'postgres://' pero SQLAlchemy necesita 'postgresql://'
+    if DATABASE_URL.startswith('postgres://'):
+        DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
+    
+    SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
