@@ -20,7 +20,7 @@
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Rol</th>
-                            <th>Acción</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,6 +35,8 @@
                                 </span>
                             </td>
                             <td>
+                                <a href="{{ url_for('main.editar_usuario', id=u.id) }}"
+                                   class="btn btn-warning btn-sm">✏️</a>
                                 {% if u.id != current_user.id %}
                                     <a href="{{ url_for('main.eliminar_usuario', id=u.id) }}"
                                        class="btn btn-danger btn-sm"

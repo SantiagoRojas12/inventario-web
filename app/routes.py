@@ -169,3 +169,41 @@ def eliminar_usuario(id):
     db.session.commit()
     flash('Usuario eliminado correctamente', 'success')
     return redirect(url_for('main.usuarios'))
+
+# ------------------------------------
+# RUTA: Editar usuario
+# ------------------------------------
+@main.route('/usuarios/editar/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_usuario(id):
+    if not current_user.es_jefe():
+        flash('No tienes permisos para esta acción', 'danger')
+        return redirect(url_for('main.dashboard'))
+
+    usuario = Usuario.query.get_or_404(id)
+
+    if request.method == 'POST':
+        nombre   = request.form.get('nombre')
+        email    = request.form.get('email')
+        rol      = request.form.get('rol')
+        password = request.form.get('password')
+
+        # Verifica que el email no lo use otro usuario
+        existe = Usuario.query.filter_by(email=email).first()
+        if existe and existe.id != id:
+            flash('Ese email ya está en uso', 'danger')
+            return redirect(url_for('main.editar_usuario', id=id))
+
+        usuario.nombre = nombre
+        usuario.email  = email
+        usuario.rol    = rol
+
+        # Solo cambia la contraseña si escribió una nueva
+        if password:
+            usuario.set_password(password)
+
+        db.session.commit()
+        flash('Usuario actualizado correctamente', 'success')
+        return redirect(url_for('main.usuarios'))
+
+    return render_template('editar_usuario.html', usuario_edit=usuario)
