@@ -16,6 +16,7 @@ with app.app_context():
             "ALTER TABLE productos ADD COLUMN IF NOT EXISTS imei1 VARCHAR(20)",
             "ALTER TABLE productos ADD COLUMN IF NOT EXISTS imei2 VARCHAR(20)",
             "ALTER TABLE productos ADD COLUMN IF NOT EXISTS tienda VARCHAR(50) DEFAULT 'Shiloh Store'",
+            "ALTER TABLE productos ADD COLUMN IF NOT EXISTS ram VARCHAR(50)",
         ]
         for sql in columnas:
             conn.execute(db.text(sql))

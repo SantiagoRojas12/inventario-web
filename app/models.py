@@ -47,6 +47,7 @@ class Producto(db.Model):
     # Especificaciones del celular
     marca         = db.Column(db.String(50))
     almacenamiento= db.Column(db.String(50))
+    ram           = db.Column(db.String(50))
     color         = db.Column(db.String(50))
     camara_trasera= db.Column(db.String(100))
     camara_frontal= db.Column(db.String(100))
