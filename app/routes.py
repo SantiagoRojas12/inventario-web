@@ -127,6 +127,10 @@ def eliminar(id):
         return redirect(url_for('main.dashboard'))
 
     producto = Producto.query.get_or_404(id)
+    
+    # Elimina primero las ventas relacionadas
+    Venta.query.filter_by(producto_id=id).delete()
+    
     db.session.delete(producto)
     db.session.commit()
     flash('Producto eliminado correctamente', 'success')
