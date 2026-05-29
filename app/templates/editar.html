@@ -4,47 +4,158 @@
 {% block content %}
 
     <div class="row justify-content-center">
-        <div class="col-12 col-md-7 col-lg-6">
+        <div class="col-12 col-md-8 col-lg-7">
 
-            <div class="card shadow-sm">
+            <div class="card">
                 <div class="card-body p-4">
 
                     <h5 class="mb-4">✏️ Editar Producto</h5>
 
                     <form method="POST">
-                        <div class="mb-3">
-                            <label class="form-label">Nombre</label>
-                            <input type="text" name="nombre" class="form-control"
-                                   value="{{ producto.nombre }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descripción</label>
-                            <input type="text" name="descripcion" class="form-control"
-                                   value="{{ producto.descripcion }}">
-                        </div>
+
+                        <h6 class="text-muted mb-3 text-uppercase" style="font-size:0.75rem; letter-spacing:1px;">
+                            Info General
+                        </h6>
+
                         <div class="row">
-                            <div class="col mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" name="nombre" class="form-control"
+                                       value="{{ producto.nombre }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Marca</label>
+                                <input type="text" name="marca" class="form-control"
+                                       value="{{ producto.marca or '' }}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Categoría</label>
+                                <input type="text" name="categoria" class="form-control"
+                                       value="{{ producto.categoria or '' }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Color</label>
+                                <input type="text" name="color" class="form-control"
+                                       value="{{ producto.color or '' }}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Cantidad</label>
                                 <input type="number" name="cantidad" class="form-control"
                                        value="{{ producto.cantidad }}" min="0" required>
                             </div>
-                            <div class="col mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Precio (S/)</label>
                                 <input type="number" name="precio" class="form-control"
                                        value="{{ producto.precio }}" min="0" step="0.01" required>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Categoría</label>
-                            <input type="text" name="categoria" class="form-control"
-                                   value="{{ producto.categoria }}">
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-warning w-100">Actualizar</button>
-                            <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary w-100">Cancelar</a>
-                        </div>
-                    </form>
 
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <input type="text" name="descripcion" class="form-control"
+                                   value="{{ producto.descripcion or '' }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tienda</label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tienda"
+                                           value="Shiloh Store" id="shiloh"
+                                           {{ 'checked' if producto.tienda == 'Shiloh Store' or not producto.tienda }}>
+                                    <label class="form-check-label" for="shiloh">
+                                        <span class="badge" style="background-color:#3b0764; font-size:0.85rem;">
+                                            Shiloh Store
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tienda"
+                                           value="Nova Smart" id="nova"
+                                           {{ 'checked' if producto.tienda == 'Nova Smart' }}>
+                                    <label class="form-check-label" for="nova">
+                                        <span class="badge" style="background-color:#16a34a; font-size:0.85rem;">
+                                            Nova Smart
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-3">
+                        <h6 class="text-muted mb-3 text-uppercase" style="font-size:0.75rem; letter-spacing:1px;">
+                            Especificaciones
+                        </h6>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Almacenamiento</label>
+                                <input type="text" name="almacenamiento" class="form-control"
+                                       value="{{ producto.almacenamiento or '' }}" placeholder="128GB">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Batería</label>
+                                <input type="text" name="bateria" class="form-control"
+                                       value="{{ producto.bateria or '' }}" placeholder="4000mAh">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cámara Trasera</label>
+                                <input type="text" name="camara_trasera" class="form-control"
+                                       value="{{ producto.camara_trasera or '' }}" placeholder="50MP">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cámara Frontal</label>
+                                <input type="text" name="camara_frontal" class="form-control"
+                                       value="{{ producto.camara_frontal or '' }}" placeholder="12MP">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cargador (Watts)</label>
+                                <input type="text" name="cargador_watts" class="form-control"
+                                       value="{{ producto.cargador_watts or '' }}" placeholder="65W">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Conectividad</label>
+                                <input type="text" name="conectividad" class="form-control"
+                                       value="{{ producto.conectividad or '' }}" placeholder="5G, WiFi 6">
+                            </div>
+                        </div>
+
+                        <hr class="my-3">
+                        <h6 class="text-muted mb-3 text-uppercase" style="font-size:0.75rem; letter-spacing:1px;">
+                            IMEI
+                        </h6>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">IMEI 1</label>
+                                <input type="text" name="imei1" class="form-control"
+                                       value="{{ producto.imei1 or '' }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">IMEI 2</label>
+                                <input type="text" name="imei2" class="form-control"
+                                       value="{{ producto.imei2 or '' }}">
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-2">
+                            <button type="submit" class="btn btn-warning w-100">Actualizar</button>
+                            <a href="{{ url_for('main.dashboard') }}" class="btn btn-light border w-100">Cancelar</a>
+                        </div>
+
+                    </form>
                 </div>
             </div>
 
