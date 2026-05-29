@@ -70,13 +70,11 @@
                     <tbody>
                         {% if productos %}
                             {% for p in productos %}
-                            <tr>
+                            <tr style="cursor:pointer;"
+                                onclick="window.location='/producto/{{ p.id }}'">
                                 <td class="text-muted">{{ p.id }}</td>
                                 <td>
-                                    <a href="{{ url_for('main.detalle_producto', id=p.id) }}"
-                                       class="text-decoration-none text-dark">
-                                        <strong>{{ p.nombre }}</strong>
-                                    </a>
+                                    <strong>{{ p.nombre }}</strong>
                                     <br>
                                     {% if p.tienda == 'Nova Smart' %}
                                         <span class="badge"
@@ -98,7 +96,7 @@
                                     </span>
                                 </td>
                                 <td>S/ {{ "%.2f"|format(p.precio) }}</td>
-                                <td>
+                                <td onclick="event.stopPropagation()">
                                     <a href="{{ url_for('main.vender_form', id=p.id) }}"
                                        class="btn btn-success btn-sm">💰</a>
                                     {% if current_user.es_jefe() %}
