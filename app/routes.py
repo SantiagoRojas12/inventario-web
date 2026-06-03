@@ -295,3 +295,21 @@ def ventas():
         ventas        = ventas,
         total_vendido = total_vendido
     )
+
+# ------------------------------------
+# RUTA: Ubicaciones (Vitrina y Almacén)
+# ------------------------------------
+@main.route('/ubicaciones')
+@login_required
+def ubicaciones():
+    if not current_user.es_jefe():
+        flash('No tienes permisos para esta acción', 'danger')
+        return redirect(url_for('main.dashboard'))
+
+    vitrina = Producto.query.filter_by(ubicacion='Vitrina').all()
+    almacen = Producto.query.filter_by(ubicacion='Almacén').all()
+
+    return render_template('ubicaciones.html',
+        vitrina = vitrina,
+        almacen = almacen
+    )
