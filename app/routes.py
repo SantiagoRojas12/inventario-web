@@ -52,6 +52,7 @@ def agregar():
             cantidad       = int(request.form.get('cantidad')),
             precio         = float(request.form.get('precio')),
             categoria      = request.form.get('categoria'),
+            ubicacion      = request.form.get('ubicacion'),
             marca          = request.form.get('marca'),
             almacenamiento = request.form.get('almacenamiento'),
             color          = request.form.get('color'),
@@ -99,6 +100,7 @@ def editar(id):
         producto.precio         = float(request.form.get('precio'))
         producto.categoria      = request.form.get('categoria')
         producto.marca          = request.form.get('marca')
+        producto.ubicacion      = request.form.get('ubicacion')
         producto.almacenamiento = request.form.get('almacenamiento')
         producto.color          = request.form.get('color')
         producto.camara_trasera = request.form.get('camara_trasera')

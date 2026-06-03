@@ -39,9 +39,9 @@
     <!-- Buscador y botones -->
     <div class="d-flex gap-2 mb-3 flex-wrap">
         <form method="GET" action="{{ url_for('main.dashboard') }}"
-              class="d-flex gap-2 flex-grow-1">
+                class="d-flex gap-2 flex-grow-1">
             <input type="text" name="buscar" class="form-control form-control-sm"
-                   placeholder="Buscar producto..." value="{{ busqueda }}">
+                placeholder="Buscar producto..." value="{{ busqueda }}">
             <button type="submit" class="btn btn-primary btn-sm">🔍</button>
             {% if busqueda %}
                 <a href="{{ url_for('main.dashboard') }}" class="btn btn-light btn-sm border">✕</a>
@@ -78,33 +78,31 @@
                                     <br>
                                     {% if p.tienda == 'Nova Smart' %}
                                         <span class="badge"
-                                              style="background-color:#16a34a; font-size:0.7rem;">
-                                            Nova Smart
+                                            style="background-color:#16a34a; font-size:0.7rem;"> Nova Smart
                                         </span>
                                     {% else %}
                                         <span class="badge"
-                                              style="background-color:#3b0764; font-size:0.7rem;">
-                                            Shiloh Store
+                                            style="background-color:#3b0764; font-size:0.7rem;"> Shiloh Store
                                         </span>
                                     {% endif %}
                                 </td>
                                 <td>
                                     <span class="badge bg-{{ 'danger' if p.cantidad < 5 else 'success' }}
-                                                 bg-opacity-10
-                                                 text-{{ 'danger' if p.cantidad < 5 else 'success' }}">
+                                                bg-opacity-10
+                                                text-{{ 'danger' if p.cantidad < 5 else 'success' }}">
                                         {{ p.cantidad }}
                                     </span>
                                 </td>
                                 <td>S/ {{ "%.2f"|format(p.precio) }}</td>
                                 <td onclick="event.stopPropagation()">
                                     <a href="{{ url_for('main.vender_form', id=p.id) }}"
-                                       class="btn btn-success btn-sm">💰</a>
+                                        class="btn btn-success btn-sm">💰</a>
                                     {% if current_user.es_jefe() %}
                                         <a href="{{ url_for('main.editar', id=p.id) }}"
-                                           class="btn btn-light btn-sm border">✏️</a>
+                                            class="btn btn-light btn-sm border">✏️</a>
                                         <a href="{{ url_for('main.eliminar', id=p.id) }}"
-                                           class="btn btn-light btn-sm border text-danger"
-                                           onclick="return confirm('¿Eliminar?')">🗑️</a>
+                                            class="btn btn-light btn-sm border text-danger"
+                                            onclick="return confirm('¿Eliminar?')">🗑️</a>
                                     {% endif %}
                                 </td>
                             </tr>

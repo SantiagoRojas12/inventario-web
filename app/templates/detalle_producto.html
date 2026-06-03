@@ -18,13 +18,11 @@
                         <!-- Badge tienda -->
                         {% if producto.tienda == 'Nova Smart' %}
                             <span class="badge"
-                                  style="background-color:#16a34a; font-size:0.85rem;">
-                                Nova Smart
+                                style="background-color:#16a34a; font-size:0.85rem;"> Nova Smart
                             </span>
                         {% else %}
                             <span class="badge"
-                                  style="background-color:#3b0764; font-size:0.85rem;">
-                                Shiloh Store
+                                style="background-color:#3b0764; font-size:0.85rem;"> Shiloh Store
                             </span>
                         {% endif %}
                     </div>
@@ -41,9 +39,9 @@
                             <div class="small text-muted">Stock</div>
                             <div>
                                 <span class="badge bg-{{ 'danger' if producto.cantidad < 5 else 'success' }}
-                                             bg-opacity-10
-                                             text-{{ 'danger' if producto.cantidad < 5 else 'success' }}
-                                             fs-6">
+                                            bg-opacity-10
+                                            text-{{ 'danger' if producto.cantidad < 5 else 'success' }}
+                                            fs-6">
                                     {{ producto.cantidad }} unidades
                                 </span>
                             </div>
@@ -123,13 +121,13 @@
                     <!-- Botones -->
                     <div class="d-flex gap-2">
                         <a href="{{ url_for('main.vender_form', id=producto.id) }}"
-                           class="btn btn-success w-100">💰 Vender</a>
+                            class="btn btn-success w-100">💰 Vender</a>
                         {% if current_user.es_jefe() %}
                             <a href="{{ url_for('main.editar', id=producto.id) }}"
-                               class="btn btn-light border w-100">✏️ Editar</a>
+                                class="btn btn-light border w-100">✏️ Editar</a>
                         {% endif %}
                         <a href="{{ url_for('main.dashboard') }}"
-                           class="btn btn-light border w-100">← Volver</a>
+                            class="btn btn-light border w-100">← Volver</a>
                     </div>
 
                 </div>

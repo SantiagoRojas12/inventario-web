@@ -21,12 +21,12 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nombre</label>
                                 <input type="text" name="nombre" class="form-control"
-                                       value="{{ producto.nombre }}" required>
+                                    value="{{ producto.nombre }}" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Marca</label>
                                 <input type="text" name="marca" class="form-control"
-                                       value="{{ producto.marca or '' }}">
+                                    value="{{ producto.marca or '' }}">
                             </div>
                         </div>
 
@@ -34,12 +34,12 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Categoría</label>
                                 <input type="text" name="categoria" class="form-control"
-                                       value="{{ producto.categoria or '' }}">
+                                    value="{{ producto.categoria or '' }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Color</label>
                                 <input type="text" name="color" class="form-control"
-                                       value="{{ producto.color or '' }}">
+                                    value="{{ producto.color or '' }}">
                             </div>
                         </div>
 
@@ -47,19 +47,19 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Cantidad</label>
                                 <input type="number" name="cantidad" class="form-control"
-                                       value="{{ producto.cantidad }}" min="0" required>
+                                    value="{{ producto.cantidad }}" min="0" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Precio (S/)</label>
                                 <input type="number" name="precio" class="form-control"
-                                       value="{{ producto.precio }}" min="0" step="0.01" required>
+                                    value="{{ producto.precio }}" min="0" step="0.01" required>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Descripción</label>
                             <input type="text" name="descripcion" class="form-control"
-                                   value="{{ producto.descripcion or '' }}">
+                                value="{{ producto.descripcion or '' }}">
                         </div>
 
                         <div class="mb-3">
@@ -67,8 +67,8 @@
                             <div class="d-flex gap-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="tienda"
-                                           value="Shiloh Store" id="shiloh"
-                                           {{ 'checked' if producto.tienda == 'Shiloh Store' or not producto.tienda }}>
+                                        value="Shiloh Store" id="shiloh"
+                                        {{ 'checked' if producto.tienda == 'Shiloh Store' or not producto.tienda }}>
                                     <label class="form-check-label" for="shiloh">
                                         <span class="badge" style="background-color:#3b0764; font-size:0.85rem;">
                                             Shiloh Store
@@ -77,11 +77,39 @@
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="tienda"
-                                           value="Nova Smart" id="nova"
-                                           {{ 'checked' if producto.tienda == 'Nova Smart' }}>
+                                        value="Nova Smart" id="nova"
+                                        {{ 'checked' if producto.tienda == 'Nova Smart' }}>
                                     <label class="form-check-label" for="nova">
                                         <span class="badge" style="background-color:#16a34a; font-size:0.85rem;">
                                             Nova Smart
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ubicación</label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ubicacion"
+                                        value="Vitrina" id="vitrina"
+                                        {{ 'checked' if producto.ubicacion == 'Vitrina' or not producto.ubicacion }}>
+                                    <label class="form-check-label" for="vitrina">
+                                        <span class="badge"
+                                            style="background-color:#0369a1; font-size:0.85rem;">
+                                            🪟 Vitrina
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ubicacion"
+                                        value="Almacén" id="almacen"
+                                        {{ 'checked' if producto.ubicacion == 'Almacén' }}>
+                                    <label class="form-check-label" for="almacen">
+                                        <span class="badge"
+                                            style="background-color:#92400e; font-size:0.85rem;">
+                                            📦 Almacén
                                         </span>
                                     </label>
                                 </div>
@@ -97,12 +125,12 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Almacenamiento</label>
                                 <input type="text" name="almacenamiento" class="form-control"
-                                       value="{{ producto.almacenamiento or '' }}" placeholder="128GB">
+                                    value="{{ producto.almacenamiento or '' }}" placeholder="128GB">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Batería</label>
                                 <input type="text" name="bateria" class="form-control"
-                                       value="{{ producto.bateria or '' }}" placeholder="4000mAh">
+                                    value="{{ producto.bateria or '' }}" placeholder="4000mAh">
                             </div>
                         </div>
 
@@ -110,12 +138,12 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Cámara Trasera</label>
                                 <input type="text" name="camara_trasera" class="form-control"
-                                       value="{{ producto.camara_trasera or '' }}" placeholder="50MP">
+                                    value="{{ producto.camara_trasera or '' }}" placeholder="50MP">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Cámara Frontal</label>
                                 <input type="text" name="camara_frontal" class="form-control"
-                                       value="{{ producto.camara_frontal or '' }}" placeholder="12MP">
+                                    value="{{ producto.camara_frontal or '' }}" placeholder="12MP">
                             </div>
                         </div>
 
@@ -123,12 +151,12 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Cargador (Watts)</label>
                                 <input type="text" name="cargador_watts" class="form-control"
-                                       value="{{ producto.cargador_watts or '' }}" placeholder="65W">
+                                    value="{{ producto.cargador_watts or '' }}" placeholder="65W">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Conectividad</label>
                                 <input type="text" name="conectividad" class="form-control"
-                                       value="{{ producto.conectividad or '' }}" placeholder="5G, WiFi 6">
+                                    value="{{ producto.conectividad or '' }}" placeholder="5G, WiFi 6">
                             </div>
                         </div>
 
@@ -141,12 +169,12 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">IMEI 1</label>
                                 <input type="text" name="imei1" class="form-control"
-                                       value="{{ producto.imei1 or '' }}">
+                                    value="{{ producto.imei1 or '' }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">IMEI 2</label>
                                 <input type="text" name="imei2" class="form-control"
-                                       value="{{ producto.imei2 or '' }}">
+                                    value="{{ producto.imei2 or '' }}">
                             </div>
                         </div>
 

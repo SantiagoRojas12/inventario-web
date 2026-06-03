@@ -42,6 +42,7 @@ class Producto(db.Model):
     descripcion   = db.Column(db.String(255))
     cantidad      = db.Column(db.Integer, nullable=False, default=0)
     precio        = db.Column(db.Float, nullable=False, default=0.0)
+    ubicacion     = db.Column(db.String(50), default='Vitrina')
     categoria     = db.Column(db.String(50))
 
     # Especificaciones del celular
