@@ -15,22 +15,22 @@
                         <div class="mb-3">
                             <label class="form-label">Nombre</label>
                             <input type="text" name="nombre" class="form-control"
-                                   value="{{ usuario_edit.nombre }}" required>
+                                value="{{ usuario_edit.nombre }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
                             <input type="email" name="email" class="form-control"
-                                   value="{{ usuario_edit.email }}" required>
+                                value="{{ usuario_edit.email }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nueva Contraseña</label>
                             <input type="password" name="password" class="form-control"
-                                   placeholder="Dejar vacío para no cambiar">
+                                placeholder="Dejar vacío para no cambiar">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Rol</label>
                             <select name="rol" class="form-select">
-                                <option value="trabajador" {{ 'selected' if usuario_edit.rol == 'trabajador' }}>
+                                <option value="trabajador" {{ 'selected' if usuario_edit.rol == 'trabajador' }}> 
                                     Trabajador
                                 </option>
                                 <option value="jefe" {{ 'selected' if usuario_edit.rol == 'jefe' }}>

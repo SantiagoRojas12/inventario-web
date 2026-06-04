@@ -36,11 +36,11 @@
                             </td>
                             <td>
                                 <a href="{{ url_for('main.editar_usuario', id=u.id) }}"
-                                   class="btn btn-warning btn-sm">✏️</a>
+                                    class="btn btn-warning btn-sm">✏️</a>
                                 {% if u.id != current_user.id %}
                                     <a href="{{ url_for('main.eliminar_usuario', id=u.id) }}"
-                                       class="btn btn-danger btn-sm"
-                                       onclick="return confirm('¿Eliminar?')">🗑️</a>
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('¿Eliminar?')">🗑️</a>
                                 {% else %}
                                     <span class="text-muted small">Tú</span>
                                 {% endif %}
